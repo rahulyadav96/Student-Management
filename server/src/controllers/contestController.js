@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Contest = require("../models/contest.model");
+const authenticate = require("../middlewares/authenticate");
 router.get('/',async (req,res)=>{
 
     try{
@@ -11,7 +12,7 @@ router.get('/',async (req,res)=>{
         return res.status(500).send({message:"Somthing wrong! Unable to access contest details.."});
     }
 })
-router.post('/',async (req,res)=>{
+router.post('/',authenticate, async (req,res)=>{
 
     try{
 
@@ -22,7 +23,7 @@ router.post('/',async (req,res)=>{
     }
 })
 
-router.patch("/:id", async (req,res)=>{
+router.patch("/:id", authenticate,async (req,res)=>{
     try{
 
         const contest = await Contest.findByIdAndUpdate(req.params.id,req.body,{new:true});
@@ -33,7 +34,7 @@ router.patch("/:id", async (req,res)=>{
     }
 })
 
-router.delete(":/id", async(req,res)=>{
+router.delete(":/id",authenticate, async(req,res)=>{
     try{
 
         const contest = await Contest.findByIdAndDelete(req.params.id);
