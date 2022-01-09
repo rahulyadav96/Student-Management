@@ -11,16 +11,6 @@ router.get('/',async (req,res)=>{
         return res.status(500).send({message:"Somthing wrong! Unable to access users details.."});
     }
 })
-// router.post('/',async (req,res)=>{
-
-//     try{
-
-//         const user = await User.create(req.body);
-//         return res.status(200).send({user})
-//     }catch(err){
-//         return res.status(500).send({message:"Somthing wrong! can't add a new user"});
-//     }
-// })
 
 router.patch("/:id", async (req,res)=>{
     try{
@@ -33,7 +23,7 @@ router.patch("/:id", async (req,res)=>{
     }
 })
 
-router.delete(":/id", async(req,res)=>{
+router.delete("/:id", async(req,res)=>{
     try{
 
         const user = await User.findByIdAndDelete(req.params.id);

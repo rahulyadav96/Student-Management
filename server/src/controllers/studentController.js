@@ -2,7 +2,9 @@ const express = require("express");
 const router = express.Router();
 const Student = require("../models/student.model");
 const authenticate = require("../middlewares/authenticate");
-router.get('/', authenticate ,async (req,res)=>{
+const authorize = require("../middlewares/authorize");
+
+router.get('/', authenticate ,authorize(["admin"]),async (req,res)=>{
 
     try{
 
@@ -12,7 +14,8 @@ router.get('/', authenticate ,async (req,res)=>{
         return res.status(500).send({message:"Somthing wrong! Unable to access students details.."});
     }
 })
-router.post('/', authenticate,async (req,res)=>{
+
+router.post('/', authenticate,authorize(["admin"]),async (req,res)=>{
 
     try{
 
@@ -23,7 +26,7 @@ router.post('/', authenticate,async (req,res)=>{
     }
 })
 
-router.patch("/:id", authenticate ,async (req,res)=>{
+router.patch("/:id", authenticate ,authorize(["admin"]),async (req,res)=>{
     try{
 
         const student = await Student.findByIdAndUpdate(req.params.id,req.body,{new:true});
@@ -34,7 +37,7 @@ router.patch("/:id", authenticate ,async (req,res)=>{
     }
 })
 
-router.delete(":/id",authenticate, async(req,res)=>{
+router.delete("/:id",authenticate, authorize(["admin"]), async(req,res)=>{
     try{
 
         const student = await Student.findByIdAndDelete(req.params.id);
