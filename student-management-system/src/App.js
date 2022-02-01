@@ -1,7 +1,11 @@
+
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { Route, Switch } from 'react-router-dom';
 import './App.css';
 import {Home} from "./components/Home"
+import { NavBar } from './components/NavBar';
+import { Sighin } from './components/signup/Signin';
 function App() {
   const [contest,setContest] = useState([]);
   const [loading,setLoading] = useState(false);
@@ -23,11 +27,16 @@ function App() {
   }
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Student Management system</h1>
-        <button>SignUP/Login</button>
-      </header>
-      <Home />
+      <NavBar />
+       <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route path="/sighnIn">
+          <Sighin />
+        </Route>
+       </Switch>
+    
     </div>
   );
 }
